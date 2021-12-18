@@ -1,5 +1,5 @@
-export function searchGithub(search, token, query) {
-  let auth = {
+export function searchGithub(token, query) {
+  let header = {
     Authorization: `token ${token}`,
   };
 
@@ -11,7 +11,7 @@ export function searchGithub(search, token, query) {
       referrerPolicy: "no-referrer",
       headers: {
         "Content-Type": "application/json",
-        ...auth,
+        ...header,
       },
       body: JSON.stringify(query),
     })

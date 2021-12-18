@@ -6,20 +6,25 @@
     <input
       :type="type"
       v-bind="$attrs"
-      :value="value"
+      :value="modelValue"
       :class="inputStyle"
-      :id="tyoe"
-      @input="$emit('input', $event.target.value)"
+      :id="type"
+      autocomplete="new-value"
+      autocorrect="false"
+      @input="$emit('update:modelValue', $event.target.value)"
     />
   </div>
 </template>
 
 <script>
 export default {
-  name: "Input",
+  name: "AppInput",
   props: {
-    for: String,
     inputStyle: {
+      type: String,
+      default: "",
+    },
+    modelValue: {
       type: String,
       default: "",
     },
@@ -29,6 +34,7 @@ export default {
     },
     label: String,
   },
+  emits: ["update:modelValue"],
 };
 </script>
 

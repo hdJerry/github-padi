@@ -131,7 +131,6 @@ export default {
 
         if (e.target.open) {
           e.target.open = false;
-          return false;
         } else {
           e.target.open = true;
         }

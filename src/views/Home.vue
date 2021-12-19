@@ -6,9 +6,11 @@
       <AppInput
         name="new-search"
         type="text"
+        id="searchuser"
         v-model="search"
         placeholder="Search user"
         input-style="input_style"
+        :disabled="loading"
       />
       <AppButton
         :loading="loading"

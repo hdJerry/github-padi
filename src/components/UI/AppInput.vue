@@ -8,7 +8,7 @@
       v-bind="$attrs"
       :value="modelValue"
       :class="inputStyle"
-      :id="type"
+      :id="id"
       autocomplete="new-value"
       autocorrect="false"
       @input="$emit('update:modelValue', $event.target.value)"
@@ -30,6 +30,10 @@ export default {
     type: {
       type: String,
       default: "text",
+    },
+    id: {
+      type: String,
+      default: "id",
     },
     label: String,
   },

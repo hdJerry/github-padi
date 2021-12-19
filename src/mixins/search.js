@@ -8,6 +8,8 @@ export default {
       search: "",
       loading: false,
       errorMsg: "",
+      first: 50,
+      searchType: "USER",
     };
   },
   created() {
@@ -23,7 +25,7 @@ export default {
       this.loading = true;
       let self = this;
       try {
-        let query = await queryData(this.search, "USER", 50);
+        let query = await queryData(this.search, this.searchType, this.first);
         let resp = await searchGithub(this.token, query);
         let { data } = resp;
         if (data) {

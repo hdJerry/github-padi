@@ -20,7 +20,13 @@
     <div class="result" v-else>
       <header class="search_header">
         <p>{{ users }} Users</p>
-        <div>sort</div>
+        <AppButton btn-style="btn_sort">
+          <span>Sort By</span>
+          <img
+            src="https://img.icons8.com/ios-filled/10/000000/sort-down.png"
+            alt="caret"
+          />
+        </AppButton>
       </header>
       <div v-for="({ node }, index) in filterData" :key="index">
         <Card :data="node" />
@@ -106,7 +112,7 @@ export default {
     position: sticky;
     top: 0;
     padding: 10px;
-    background-color: rgb(26, 27, 39);
+    background-color: var(--primary-color);
     z-index: 10;
     display: flex;
     justify-content: space-between;
@@ -135,14 +141,14 @@ export default {
         width: 250px;
         border-radius: 6px;
         border: 1px solid #fff;
-        background: rgb(26, 27, 39);
+        background: var(--primary-color);
         color: #fff;
         transition: all 0.3s ease-in-out;
         &.active_input {
           width: 380px;
-          border: 1px solid rgb(26, 27, 39);
+          border: 1px solid var(--primary-color);
           background: #fff;
-          color: rgb(26, 27, 39);
+          color: var(--primary-color);
         }
       }
     }
@@ -173,7 +179,20 @@ export default {
       p {
         font-size: 1.4rem;
         font-weight: bold;
-        color: rgb(26, 27, 39);
+        color: var(--primary-color);
+      }
+
+      .btn_sort {
+        padding: 10px 15px;
+        border-radius: 5px;
+        border: 1px solid var(--primary-color);
+        background-color: #fff;
+        span {
+          color: var(--primary-color);
+        }
+        img {
+          margin-left: 7px;
+        }
       }
     }
 
@@ -186,13 +205,13 @@ export default {
         padding: 10px;
         border-radius: 6px;
         background-color: #ccc;
-        color: rgb(26, 27, 39);
+        color: var(--primary-color);
       }
       button:not(:last-child) {
         margin-right: 20px;
       }
       .btn_active {
-        background-color: rgb(26, 27, 39);
+        background-color: var(--primary-color);
         color: #fff;
       }
     }

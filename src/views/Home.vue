@@ -43,7 +43,7 @@ export default {
   padding: 15px;
 
   & > .logo {
-    color: rgb(26, 27, 39);
+    color: var(--primary-color);
     font-size: 2.5rem;
     margin-bottom: 5px;
   }
@@ -72,7 +72,7 @@ export default {
       width: 100%;
       border-radius: 6px;
       height: 2.6rem;
-      border: 1px solid rgb(26, 27, 39);
+      border: 1px solid var(--primary-color);
     }
   }
 }
@@ -80,7 +80,7 @@ export default {
 .btn_style {
   border-radius: 50px;
   width: 100%;
-  background-color: rgb(26, 27, 39);
+  background-color: var(--primary-color);
   border: none;
   outline: none;
   color: #fff;

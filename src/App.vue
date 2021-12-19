@@ -16,4 +16,7 @@
   margin: 0;
   border: none;
 }
+:root {
+  --primary-color: rgb(26, 27, 39);
+}
 </style>

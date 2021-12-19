@@ -18,7 +18,6 @@ jobs:
     steps:
       - node/install-npm:
           version: '4.0'
-      - node/install-yarn
       - node/install-packages:
           pkg-manager: yarn 
 

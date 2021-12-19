@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <h1 class="logo">Github Padi</h1>
     <div class="search_card">
       <i class="error" v-if="errorMsg">{{ errorMsg }}</i>
       <AppInput
@@ -7,7 +8,6 @@
         type="text"
         v-model="search"
         placeholder="Search user"
-        label="Search User"
         input-style="input_style"
       />
       <AppButton
@@ -37,9 +37,16 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-flow: column;
   width: 100%;
   height: 100vh;
   padding: 15px;
+
+  & > .logo {
+    color: rgb(26, 27, 39);
+    font-size: 2.5rem;
+    margin-bottom: 5px;
+  }
   .error {
     color: rgb(185, 6, 6);
     font-size: 0.9rem;
@@ -64,6 +71,7 @@ export default {
     .input_style {
       width: 100%;
       border-radius: 6px;
+      height: 2.6rem;
       border: 1px solid rgb(26, 27, 39);
     }
   }
@@ -77,7 +85,7 @@ export default {
   outline: none;
   color: #fff;
   font-size: 1.1rem;
-  height: 3rem;
+  height: 2.8rem;
   margin: 10px 0;
   padding: 10px;
 }

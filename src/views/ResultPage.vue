@@ -105,21 +105,31 @@ export default {
   nav {
     position: sticky;
     top: 0;
-    height: 70px;
     padding: 10px;
     background-color: rgb(26, 27, 39);
     z-index: 10;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    @media (min-width: 1024px) {
+      height: 70px;
+    }
 
     .nav_left {
       display: flex;
       align-items: center;
+      flex-flow: column;
+      width: 100%;
+      @media (min-width: 1024px) {
+        flex-flow: row;
+        width: unset;
+      }
       h3 {
-        margin: 0 15px;
         font-size: 1.5rem;
         color: #fff;
+        @media (min-width: 1024px) {
+          margin: 0 15px;
+        }
       }
       .input_style {
         width: 250px;
@@ -129,7 +139,7 @@ export default {
         color: #fff;
         transition: all 0.3s ease-in-out;
         &.active_input {
-          width: 350px;
+          width: 380px;
           border: 1px solid rgb(26, 27, 39);
           background: #fff;
           color: rgb(26, 27, 39);

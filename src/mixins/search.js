@@ -26,7 +26,6 @@ export default {
         let query = await queryData(this.search, "USER", 50);
         let resp = await searchGithub(this.token, query);
         let { data } = resp;
-        console.log(data);
         if (data) {
           let {
             search: { edges, userCount },
@@ -35,9 +34,7 @@ export default {
             edges,
             userCount,
           });
-          this.$router.push("/result").then(() => {
-            console.log("here");
-          });
+          this.$router.push("/result");
           this.search = "";
         } else {
           let { errors } = resp;

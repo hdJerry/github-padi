@@ -15,9 +15,7 @@ jobs:
     executor: my-custom-executor
     steps:
       - checkout
-      - store_test_results:    
-          path: /tmp/test-results
-      - run: |
+      - run: yarn test:unit
           # Testing!
 
 workflows:
@@ -25,7 +23,6 @@ workflows:
     jobs:
       - test
       - node/test:
-            app-dir: ./
             test-results-for: jest 
             pkg-manager: yarn 
             version: '14.18.0' 

@@ -20,13 +20,19 @@
     <div class="result" v-else>
       <header class="search_header">
         <p>{{ users }} Users</p>
-        <AppButton btn-style="btn_sort">
-          <span>Sort By</span>
-          <img
-            src="https://img.icons8.com/ios-filled/10/000000/sort-down.png"
-            alt="caret"
-          />
-        </AppButton>
+        <details tabindex="-1" ref="sortdetails">
+          <summary class="btn_sort">
+            <span>Sort By</span>
+            <img
+              src="https://img.icons8.com/ios-filled/10/000000/sort-down.png"
+              alt="caret"
+            />
+          </summary>
+          <div class="dropdown">
+            <p @click="sortData(1)">Followers (ASC)</p>
+            <p @click="sortData(-1)">Followers (DSC)</p>
+          </div>
+        </details>
       </header>
       <div v-for="({ node }, index) in filterData" :key="index">
         <Card :data="node" />
@@ -80,6 +86,9 @@ export default {
     this.total = this.getData.edges.length / this.limit;
     this.users = this.getData.userCount;
   },
+  mounted() {
+    this.dropdownFunction();
+  },
   computed: {
     ...mapGetters({
       getData: "getData",
@@ -100,6 +109,38 @@ export default {
         this.total = this.getData.edges.length / this.limit;
         this.users = this.getData.userCount;
       }
+    },
+    async sortData(value) {
+      if (value === 1) {
+        // Ascednding order
+        this.data = this.data.sort(
+          (a, b) => a.node.followers.totalCount - b.node.followers.totalCount
+        );
+      } else {
+        // Descending order
+        this.data = this.data.sort(
+          (a, b) => b.node.followers.totalCount - a.node.followers.totalCount
+        );
+      }
+      this.$refs.sortdetails.open = false;
+    },
+    dropdownFunction() {
+      this.$refs.sortdetails.addEventListener("click", (e) => {
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+
+        if (e.target.open) {
+          e.target.open = false;
+        } else {
+          e.target.open = true;
+        }
+      });
+      document.body.addEventListener("click", () => {
+        this.$refs.sortdetails.open = false;
+      });
+      document.documentElement.addEventListener("click", () => {
+        this.$refs.sortdetails.open = false;
+      });
     },
   },
   mixins: [searchMixin],
@@ -181,17 +222,60 @@ export default {
         font-weight: bold;
         color: var(--primary-color);
       }
-
-      .btn_sort {
-        padding: 10px 15px;
+      details {
         border-radius: 5px;
-        border: 1px solid var(--primary-color);
-        background-color: #fff;
-        span {
-          color: var(--primary-color);
+        border: 1px solid var(--border-color);
+        background-color: var(--bg-color);
+        cursor: pointer;
+        & > .dropdown {
+          position: absolute;
+          z-index: 7;
+          right: 0;
+          bottom: 0;
+          -webkit-transform: translate(0, calc(100% + 10px));
+          transform: translate(0, calc(100% + 10px));
+          background-color: #fff;
+          border: 1px solid #e1e4e8;
+          padding-top: 5px;
+          padding-bottom: 5px;
+          min-width: 180px;
+          border-radius: 6px;
+          -webkit-box-shadow: 0 0 20px rgba(19, 19, 19, 0.075);
+          box-shadow: 0 0 20px rgba(19, 19, 19, 0.075);
+
+          & > p {
+            padding: 8px 5px;
+            display: block;
+            font-size: 0.9rem;
+            font-weight: lighter;
+            color: var(--primary-color);
+          }
         }
-        img {
-          margin-left: 7px;
+
+        & > summary {
+          list-style: none;
+          &::marker {
+            display: none;
+          }
+          &::-webkit-details-marker {
+            display: none;
+          }
+        }
+
+        .btn_sort {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 7px 10px;
+          span {
+            color: var(--primary-color);
+            font-size: 0.8rem;
+          }
+          img {
+            margin-left: 7px;
+          }
         }
       }
     }

@@ -18,5 +18,7 @@
 }
 :root {
   --primary-color: rgb(26, 27, 39);
+  --border-color: #1b1f2426;
+  --bg-color: #f3f4f6;
 }
 </style>

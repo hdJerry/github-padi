@@ -6,6 +6,7 @@
         <AppInput
           name="new-search"
           type="text"
+          id="searchuser"
           v-model="search"
           placeholder="Search user"
           :input-style="[{ active_input: active_input }, 'input_style']"
@@ -173,7 +174,7 @@ export default {
       }
       h3 {
         font-size: 1.5rem;
-        color: #fff;
+        color: #eee;
         @media (min-width: 1024px) {
           margin: 0 15px;
         }
@@ -181,14 +182,14 @@ export default {
       .input_style {
         width: 250px;
         border-radius: 6px;
-        border: 1px solid #fff;
+        border: 1px solid #eee;
         background: var(--primary-color);
-        color: #fff;
+        color: #eee;
         transition: all 0.3s ease-in-out;
         &.active_input {
           width: 380px;
           border: 1px solid var(--primary-color);
-          background: #fff;
+          background: #eee;
           color: var(--primary-color);
         }
       }
@@ -249,6 +250,10 @@ export default {
             font-size: 0.9rem;
             font-weight: lighter;
             color: var(--primary-color);
+            &:hover {
+              background-color: var(--bg-color);
+              color: rgb(55, 55, 248);
+            }
           }
         }
 

@@ -84,10 +84,10 @@ export default {
       justify-content: flex-start;
 
       p {
-        margin-right: 5px;
+        margin-right: 10px;
         font-size: 0.8rem;
         .counts {
-          color: rgb(63, 63, 150);
+          color: rgb(55, 55, 248);
         }
       }
     }

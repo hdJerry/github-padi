@@ -2,7 +2,7 @@
   <div class="result_page">
     <nav>
       <div class="nav_left">
-        <h3>Github Padi</h3>
+        <h3>Github Pals</h3>
         <AppInput
           name="new-search"
           type="text"

@@ -11,7 +11,7 @@ jobs:
   test:
     environment:
       VUE_APP_GITHUB_KEY: YmVmZWZmM2Q3YjZlZWEwYjgxODQ2ZjMzNjdjMGExYzdhNGY0NWIzOQ==
-      CI: "false"
+     
     executor: my-custom-executor
     steps:
       - checkout
@@ -23,8 +23,8 @@ workflows:
     jobs:
       - test
       - node/test:
-            pkg-manager: yarn 
-            run-command: yarn test:unit
             test-results-for: jest 
+            pkg-manager: yarn 
             version: '14.18.0' 
             override-ci-command: yarn 
+            run-command: test:unit

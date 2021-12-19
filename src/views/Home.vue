@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1 class="logo">Github Padi</h1>
+    <h1 class="logo">Github Pals</h1>
     <div class="search_card">
       <i class="error" v-if="errorMsg">{{ errorMsg }}</i>
       <AppInput

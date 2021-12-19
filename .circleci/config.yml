@@ -1,4 +1,8 @@
 version: 2.1
+
+orbs:
+  node: circleci/node@4.9.0
+
 executors:
   my-custom-executor:
     docker:
@@ -22,3 +26,9 @@ workflows:
   my-custom-workflow:
     jobs:
       - test
+      - node/test:
+            pkg-manager: yarn 
+            run-command: test:unit 
+            test-results-for: jest 
+            version: '14.18.0' 
+            override-ci-command: yarn 

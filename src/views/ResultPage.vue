@@ -20,7 +20,7 @@
     <div class="result" v-else>
       <header class="search_header">
         <p>{{ users }} Users</p>
-        <details>
+        <details tabindex="-1" ref="sortdetails">
           <summary class="btn_sort">
             <span>Sort By</span>
             <img
@@ -122,35 +122,25 @@ export default {
           (a, b) => b.node.followers.totalCount - a.node.followers.totalCount
         );
       }
+      this.$refs.sortdetails.open = false;
     },
     dropdownFunction() {
-      let Details = document.querySelectorAll("details");
+      this.$refs.sortdetails.addEventListener("click", (e) => {
+        e.stopPropagation();
+        e.stopImmediatePropagation();
 
-      Array.from(Details).forEach((detail) => {
-        document.body.addEventListener("click", () => {
-          detail.open = false;
-        });
-        document.documentElement.addEventListener("click", () => {
-          detail.open = false;
-        });
-
-        detail.addEventListener("click", (e) => {
-          e.stopPropagation();
-          e.stopImmediatePropagation();
-
-          if (detail.open) {
-            e.target.open = false;
-            return false;
-          }
-
-          Details.forEach((Odetail) => {
-            if (e.target !== Odetail) {
-              Odetail.open = false;
-            } else {
-              Odetail.open = true;
-            }
-          });
-        });
+        if (e.target.open) {
+          e.target.open = false;
+          return false;
+        } else {
+          e.target.open = true;
+        }
+      });
+      document.body.addEventListener("click", () => {
+        this.$refs.sortdetails.open = false;
+      });
+      document.documentElement.addEventListener("click", () => {
+        this.$refs.sortdetails.open = false;
       });
     },
   },

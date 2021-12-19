@@ -15,8 +15,26 @@ jobs:
     executor: my-custom-executor
     steps:
       - checkout
-      - run: yarn test:unit
+      - run: |
           # Testing!
+      - restore_cache:
+          key: npm-cache-v1-{{ checksum "package.json" }}
+      - run:
+          name: Install Dependencies
+          command: yarn install
+      - save_cache:
+          key: npm-cache-v1-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run:
+          name: Run Tests
+          command: |
+            mkdir -p ./test-results/junit
+            yarn test --ci --reporters=jest-junit
+      - store_artifacts:
+          path: ./test-results/junit
+      - store_test_results:
+          path: ./test-results
 
 workflows:
   my-custom-workflow:

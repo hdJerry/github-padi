@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
+import { requiresData } from "./utils";
 
 const routes = [
   {
@@ -15,6 +16,12 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
+  },
+  {
+    path: "/result",
+    name: "Result Page",
+    beforeEnter: requiresData,
+    component: () => import("../views/ResultPage.vue"),
   },
 ];
 

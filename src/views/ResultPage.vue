@@ -217,6 +217,7 @@ export default {
       justify-content: space-between;
       align-items: center;
       padding: 10px 0;
+      position: relative;
 
       p {
         font-size: 1.4rem;

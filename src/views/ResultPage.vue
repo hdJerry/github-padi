@@ -11,10 +11,13 @@
           :input-style="[{ active_input: active_input }, 'input_style']"
           @focus="active_input = true"
           @blur="active_input = false"
+          @keyup.enter="research"
+          :disabled="loading"
         />
       </div>
     </nav>
-    <div class="result">
+    <div class="loading_state" v-if="loading">Fetching data</div>
+    <div class="result" v-else>
       <header class="search_header">
         <p>{{ users }} Users</p>
         <div>sort</div>
@@ -46,6 +49,7 @@
 </template>
 
 <script>
+import searchMixin from "@/mixins/search.js";
 import { mapGetters } from "vuex";
 import Card from "@/components/UI/Card.vue";
 export default {
@@ -82,10 +86,17 @@ export default {
     },
   },
   methods: {
-    pageChange(page) {
-      console.log(page);
+    async research() {
+      if (this.search) {
+        await this.searchGithub();
+        this.data = this.getData.edges;
+        this.count = this.getData.edges.length;
+        this.total = this.getData.edges.length / this.limit;
+        this.users = this.getData.userCount;
+      }
     },
   },
+  mixins: [searchMixin],
 };
 </script>
 
@@ -126,6 +137,14 @@ export default {
       }
     }
   }
+  .loading_state {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    height: 80vh;
+  }
   .result {
     width: 100%;
     margin: 20px auto;
@@ -144,6 +163,7 @@ export default {
       p {
         font-size: 1.4rem;
         font-weight: bold;
+        color: rgb(26, 27, 39);
       }
     }
 

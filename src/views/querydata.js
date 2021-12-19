@@ -10,12 +10,27 @@ const queryData = (search, type, first) => {
               edges {
                 node {
                   ...on User {
+                    url
                     avatarUrl
                     bio
                     fullname:name
                     company
                     followers {
                       totalCount
+                    }
+                    repositories(first: 10) {
+                      edges {
+                        node {
+                          forkCount,
+                          stargazerCount,
+                          languages(first: 5) {
+                            nodes {
+                              name,
+                              color
+                            }
+                          }
+                        }
+                      }
                     }
                   },
                   ...on Repository {

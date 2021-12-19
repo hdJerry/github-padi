@@ -1,10 +1,26 @@
 <template>
-  <div class="card" v-if="data">
+  <div class="card" v-if="data" @click="open">
     <div class="dp_name">
       <div class="dp">
         <img :src="data.avatarUrl" alt="" />
       </div>
-      <p class="name">{{ data.fullname }}</p>
+      <div>
+        <p class="name">{{ data.fullname }}</p>
+        <div class="otherinfo">
+          <p>
+            Followers:
+            <span class="counts">{{ data.followers.totalCount }}</span>
+          </p>
+          <p>
+            Stars:
+            <span class="counts">{{ stars(data.repositories.edges) }}</span>
+          </p>
+          <p>
+            Fork:
+            <span class="counts">{{ forks(data.repositories.edges) }}</span>
+          </p>
+        </div>
+      </div>
     </div>
     <p class="bio" v-if="data.bio">
       {{ data.bio }}
@@ -14,6 +30,7 @@
 </template>
 
 <script>
+import countMixins from "@/mixins/index";
 export default {
   name: "Card",
   props: {
@@ -22,16 +39,23 @@ export default {
       default: () => {},
     },
   },
+  methods: {
+    open() {
+      window.open(this.data.url);
+    },
+  },
+  mixins: [countMixins],
 };
 </script>
 
 <style lang="scss" scoped>
 .card {
   width: 100%;
-  padding: 10px;
+  padding: 10px 20px;
   background-color: #fff;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
   min-height: 150px;
+  cursor: pointer;
 
   & > .dp_name {
     display: flex;
@@ -50,12 +74,30 @@ export default {
         object-fit: cover;
       }
     }
+    .name {
+      text-align: left;
+      margin: 0px 0 5px;
+    }
+    .otherinfo {
+      display: flex;
+      justify-content: flex-start;
+
+      p {
+        margin-right: 5px;
+        font-size: 0.8rem;
+        .counts {
+          color: rgb(63, 63, 150);
+        }
+      }
+    }
   }
 
   .bio {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    text-align: left;
+    font-size: 0.9rem;
   }
 }
 </style>

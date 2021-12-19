@@ -25,14 +25,11 @@
 
 <script>
 import { mapMutations } from "vuex";
-import AppInput from "@/components/UI/AppInput.vue";
-import AppButton from "@/components/UI/AppButton.vue";
 import queryData from "@/views/querydata.js";
 import { searchGithub } from "@/services/api.js";
 // @ is an alias to /src
 export default {
   name: "Home",
-  components: { AppInput, AppButton },
   data() {
     return {
       token: null,
@@ -57,10 +54,10 @@ export default {
         let query = await queryData(this.search, "USER", 50);
         let resp = await searchGithub(this.token, query);
         let { data } = resp;
+        console.log(data);
         if (data) {
           let {
-            search: { edges },
-            userCount,
+            search: { edges, userCount },
           } = data;
           this.setData({ edges, userCount });
           this.$router.push("/result").then(() => {
@@ -92,7 +89,7 @@ export default {
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 80vh;
+  height: 100vh;
   padding: 15px;
   .error {
     color: rgb(185, 6, 6);

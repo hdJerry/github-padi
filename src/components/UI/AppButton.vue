@@ -12,7 +12,6 @@ export default {
   components: { Loader },
   props: {
     btnStyle: {
-      type: String,
       default: "",
     },
     loaderColor: {

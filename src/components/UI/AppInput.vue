@@ -21,7 +21,6 @@ export default {
   name: "AppInput",
   props: {
     inputStyle: {
-      type: String,
       default: "",
     },
     modelValue: {

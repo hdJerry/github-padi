@@ -4,12 +4,15 @@ import carddata from "./cardData";
 
 describe("Card", () => {
   it.todo("should mount without error");
-  it("should mount", () => {
+  it("should mount", async () => {
+    const open = jest.spyOn(Card.methods, "open");
     let wrapper = shallowMount(Card, {
       props: {
         data: carddata,
       },
     });
     expect(wrapper).toBeTruthy();
+    await wrapper.trigger("click");
+    expect(open).toHaveBeenCalled();
   });
 });

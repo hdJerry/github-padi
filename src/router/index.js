@@ -11,7 +11,8 @@ const routes = [
   {
     path: "/result",
     name: "Result Page",
-    beforeEnter: requiresData,
+    beforeEnter:
+      requiresData /** Can't get into this route without searched data */,
     component: () => import("../views/ResultPage.vue"),
   },
 ];

@@ -17,10 +17,14 @@ jobs:
       - run:
           name: "Say hello"
           command: "echo Hello, World!"
-
+orbs:
+  github-cli: circleci/github-cli@1.1.0
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   say-hello-workflow:
     jobs:
       - say-hello
+      - github-cli/release:
+            tag: default 
+            version: '2.1' 

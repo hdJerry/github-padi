@@ -30,8 +30,12 @@
             />
           </summary>
           <div class="dropdown">
-            <p @click="sortData(1)">Followers (ASC)</p>
-            <p @click="sortData(-1)">Followers (DSC)</p>
+            <p @click="sortData(1)" :class="{ active: sortBy === 1 }">
+              Followers (ASC)
+            </p>
+            <p @click="sortData(-1)" :class="{ active: sortBy === -1 }">
+              Followers (DSC)
+            </p>
           </div>
         </details>
       </header>
@@ -79,6 +83,7 @@ export default {
       total: 0,
       search: "",
       active_input: false,
+      sortBy: 0,
     };
   },
   created() {
@@ -123,6 +128,7 @@ export default {
           (a, b) => b.node.followers.totalCount - a.node.followers.totalCount
         );
       }
+      this.sortBy = value;
       this.$refs.sortdetails.open = false;
     },
     dropdownFunction() {
@@ -252,6 +258,10 @@ export default {
             font-weight: lighter;
             color: var(--primary-color);
             &:hover {
+              background-color: var(--bg-color);
+              color: rgb(55, 55, 248);
+            }
+            &.active {
               background-color: var(--bg-color);
               color: rgb(55, 55, 248);
             }

@@ -6,6 +6,8 @@ describe("Card", () => {
   it.todo("should mount without error");
   it("should mount", async () => {
     const open = jest.spyOn(Card.methods, "open");
+    const jsdomOpen = window.open;
+    window.open = () => {};
     let wrapper = shallowMount(Card, {
       props: {
         data: carddata,
@@ -13,6 +15,7 @@ describe("Card", () => {
     });
     expect(wrapper).toBeTruthy();
     await wrapper.trigger("click");
+    window.open = jsdomOpen;
     expect(open).toHaveBeenCalled();
   });
 });

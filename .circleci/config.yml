@@ -4,9 +4,6 @@ version: 2.1
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
-orbs:
-  node: circleci/node@4.7
-
 jobs:
   say-hello:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
@@ -24,8 +21,6 @@ jobs:
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  test:
+  say-hello-workflow:
     jobs:
-      - node/test:
-          version: '16.10'
-          pkg-manager: yarn
+      - say-hello

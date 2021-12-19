@@ -7,15 +7,11 @@ executors:
   my-custom-executor:
     docker:
       - image: cimg/base:stable
-        auth:
-          # ensure you have first added these secrets
-          # visit app.circleci.com/settings/project/github/hdJerry/github-padi/environment-variables
-          username: $DOCKER_HUB_USER
-          password: $DOCKER_HUB_PASSWORD
 jobs:
   test:
     environment:
       VUE_APP_GITHUB_KEY: YmVmZWZmM2Q3YjZlZWEwYjgxODQ2ZjMzNjdjMGExYzdhNGY0NWIzOQ==
+      CI: "false"
     executor: my-custom-executor
     steps:
       - checkout
@@ -28,7 +24,7 @@ workflows:
       - test
       - node/test:
             pkg-manager: yarn 
-            run-command: test:unit 
+            run-command: yarn test:unit
             test-results-for: jest 
             version: '14.18.0' 
             override-ci-command: yarn 

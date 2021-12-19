@@ -1,26 +1,47 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine.
-# See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
-jobs:
-  say-hello:
-    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+orbs:
+  node: circleci/node@4.9.0
+
+executors:
+  my-custom-executor:
     docker:
       - image: cimg/base:stable
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+jobs:
+  test:
+    environment:
+      VUE_APP_GITHUB_KEY: YmVmZWZmM2Q3YjZlZWEwYjgxODQ2ZjMzNjdjMGExYzdhNGY0NWIzOQ==
+     
+    executor: my-custom-executor
     steps:
       - checkout
+      - run: |
+          # Testing!
+      - restore_cache:
+          key: npm-cache-v1-{{ checksum "package.json" }}
       - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
-
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+          name: Install Dependencies
+          command: yarn install
+      - save_cache:
+          key: npm-cache-v1-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run:
+          name: Run Tests
+          command: |
+            mkdir -p ./test-results/junit
+            yarn test --ci --reporters=jest-junit
+      - store_artifacts:
+          path: ./test-results/junit
+      - store_test_results:
+          path: ./test-results
 workflows:
-  say-hello-workflow:
+  my-custom-workflow:
     jobs:
-      - say-hello
+      - test
+      - node/test:
+            test-results-for: jest 
+            pkg-manager: yarn 
+            version: '14.18.0' 
+            override-ci-command: yarn 
+            run-command: test:unit

@@ -28,3 +28,7 @@ workflows:
       - node/run:
             yarn-run: test:unit 
             pkg-manager: yarn
+            app-dir: ./
+      - node/test:
+            app-dir: ./ 
+            test-results-for: jest

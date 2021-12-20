@@ -15,6 +15,6 @@ describe("AppInput", () => {
       modelValue: "Jerry",
     });
     let input = await wrapper.find("#searchuser");
-    expect(input.element.value).toBe("Jerrys");
+    expect(input.element.value).toBe("Jerry");
   });
 });

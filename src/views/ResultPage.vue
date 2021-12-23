@@ -17,7 +17,7 @@
         />
       </div>
     </nav>
-    <div class="loading_state" v-if="loading">Fetching data</div>
+    <Loader v-if="loading" />
     <div class="result" v-else>
       <header class="search_header">
         <p>{{ users }} Users</p>
@@ -39,18 +39,32 @@
           </div>
         </details>
       </header>
-      <div v-for="({ node }, index) in filterData" :key="index">
+      <div v-for="({ node }, index) in data" :key="index">
         <Card :data="node" />
       </div>
-      <div class="paginate">
-        <AppButton
+      <div class="paginate" v-if="getData.pageInfo">
+        <!-- <AppButton
           :btn-style="[{ btn_active: currentPage > 0 }, 'btn_pag']"
           @click="currentPage = currentPage - 1"
           :disabled="currentPage === 0"
         >
           Prev
+        </AppButton> -->
+        <AppButton
+          :btn-style="[{ btn_active: pageInfo.hasPreviousPage }, 'btn_pag']"
+          @click="paginate(pageInfo.startCursor, 'l')"
+          :disabled="!pageInfo.hasPreviousPage"
+        >
+          Prev
         </AppButton>
         <AppButton
+          @click="paginate(pageInfo.endCursor, 'f')"
+          :btn-style="[{ btn_active: pageInfo.hasNextPage }, 'btn_pag']"
+          :disabled="!pageInfo.hasNextPage"
+        >
+          Next
+        </AppButton>
+        <!-- <AppButton
           @click="currentPage = currentPage + 1"
           :btn-style="[
             { btn_active: currentPage < Math.ceil(data.length / limit) - 1 },
@@ -59,7 +73,7 @@
           :disabled="currentPage >= Math.ceil(data.length / limit) - 1"
         >
           Next
-        </AppButton>
+        </AppButton> -->
       </div>
     </div>
   </div>
@@ -76,21 +90,23 @@ export default {
     return {
       data: [],
       users: 0,
+      pageInfo: null,
       limit: 5,
       page: 1,
       count: 0,
       currentPage: 0,
       total: 0,
-      search: "",
       active_input: false,
       sortBy: 0,
     };
   },
   created() {
     this.data = this.getData.edges;
-    this.count = this.getData.edges.length;
-    this.total = this.getData.edges.length / this.limit;
+    // this.count = this.getData.edges.length;
+    // this.total = this.getData.edges.length / this.limit;
     this.users = this.getData.userCount;
+    this.pageInfo = this.getData.pageInfo;
+    this.search = this.getData.search;
   },
   mounted() {
     this.dropdownFunction();
@@ -109,12 +125,23 @@ export default {
   methods: {
     async research() {
       if (this.search) {
-        await this.searchGithub();
+        await this.searchGithub(null, "f");
         this.data = this.getData.edges;
-        this.count = this.getData.edges.length;
-        this.total = this.getData.edges.length / this.limit;
+        // this.count = this.getData.edges.length;
+        // this.total = this.getData.edges.length / this.limit;
         this.users = this.getData.userCount;
+        this.pageInfo = this.getData.pageInfo;
+        this.search = this.getData.search;
       }
+    },
+    async paginate(cursor, to) {
+      await this.searchGithub(cursor, to);
+      this.data = this.getData.edges;
+      // this.count = this.getData.edges.length;
+      // this.total = this.getData.edges.length / this.limit;
+      this.users = this.getData.userCount;
+      this.pageInfo = this.getData.pageInfo;
+      this.search = this.getData.search;
     },
     async sortData(value) {
       if (value === 1) {
@@ -132,7 +159,7 @@ export default {
       this.$refs.sortdetails.open = false;
     },
     dropdownFunction() {
-      this.$refs.sortdetails.addEventListener("click", (e) => {
+      this.$refs.sortdetails?.addEventListener("click", (e) => {
         e.stopPropagation();
         e.stopImmediatePropagation();
 

@@ -1,13 +1,20 @@
-const queryData = (search, type, first) => {
+const queryData = (search, type, first, cursor, last) => {
   return {
     query: `
-        query($search: String!, $type: SearchType!, $first: Int){
-            search(first: $first, type: $type, query: $search) {
+        query($search: String!, $type: SearchType!, $first: Int, $last: Int, $cursor: String) {
+            search(first: $first, type: $type, query: $search, after: $cursor, last: $last) {
               codeCount
               repositoryCount
               issueCount
               userCount
+              pageInfo {
+                endCursor
+                hasNextPage
+                hasPreviousPage
+                startCursor
+              }
               edges {
+                cursor
                 node {
                   ...on User {
                     url
@@ -55,6 +62,8 @@ const queryData = (search, type, first) => {
       search: search,
       type: type,
       first: first,
+      cursor: cursor,
+      last: last,
     },
   };
 };

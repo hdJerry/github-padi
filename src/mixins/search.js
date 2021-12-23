@@ -8,7 +8,8 @@ export default {
       search: "",
       loading: false,
       errorMsg: "",
-      first: 50,
+      first: 10,
+      last: null,
       searchType: "USER",
     };
   },
@@ -21,23 +22,38 @@ export default {
     ...mapMutations({
       setData: "setData",
     }),
-    async searchGithub() {
+    async searchGithub(goto, to) {
       this.loading = true;
       let self = this;
+      if (to === "l") {
+        this.last = 10;
+        this.first = null;
+      } else {
+        this.first = 10;
+        this.last = null;
+      }
       try {
-        let query = await queryData(this.search, this.searchType, this.first);
+        let query = await queryData(
+          this.search,
+          this.searchType,
+          this.first,
+          goto,
+          this.last
+        );
         let resp = await searchGithub(this.token, query);
         let { data } = resp;
         if (data) {
           let {
-            search: { edges, userCount },
+            search: { edges, userCount, pageInfo },
           } = data;
           this.setData({
+            pageInfo,
             edges,
             userCount,
+            search: this.search,
           });
           this.$router.push("/result");
-          this.search = "";
+          // this.search = "";
         } else {
           let { errors } = resp;
           let message = errors[0].message;

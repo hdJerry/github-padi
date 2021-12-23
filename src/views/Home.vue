@@ -16,7 +16,7 @@
         :loading="loading"
         btn-style="btn_style"
         loading-color=""
-        @click="searchGithub"
+        @click="searchGithub(null, 'f')"
         :disabled="loading || !search"
       >
         Search
